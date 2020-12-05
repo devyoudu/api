@@ -75,11 +75,41 @@ class CategoryController extends Controller
             return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
-        $category = Category::create($data);
+        $product = Product::create($data);
 
-        return response([ 'category' => new CategoryResource($category), 'message' => 'Created successfully'], 200);
+        if ($product) {
+            // Upload images
+            $images = $this->uploadImage($request);
+            $images["product_id"] = $product->id;
+            foreach ($images as $key => $value) {
+
+            }
+        }
+
+        return response([ 'product' => new ProductResource($product), 'message' => 'Created successfully'], 200);
     }
 
+    private function uploadImage($request)
+    {
+
+        $this->validate($request, [
+            'filenames' => 'required',
+            'filenames.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
+        ]);
+
+
+        if($request->hasfile('filename'))
+        {
+            foreach($request->file('filename') as $file)
+            {
+                $name = time().'.'.$file->extension();
+                $file->move(public_path().'/img/products/' . $request->base_code, $name);
+                $data[] = $name;
+            }
+        }
+
+        return $data;
+    }
     /**
      * Display the specified resource.
      *
