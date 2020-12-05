@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
 use Illuminate\Support\Str;
@@ -67,16 +68,60 @@ class ProductController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'product_title' => 'required|max:255'
+        ]);
+
+        if($validator->fails()){
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+        $product = Product::create($data);
+
+        if ($product) {
+            // Upload images
+            $images = $this->uploadImage($request);
+
+            foreach ($images as $key => $value) {
+                $prod_image = new ProductImage;
+                $prod_image->product_id = $product->id;
+                $prod_image->image_name = $value;
+                $prod_image->save();
+            }
+        }
+
+        return response([ 'category' => new ProductResource($product), 'message' => 'Created successfully'], 200);
+
     }
+
+    private function uploadImage($request)
+    {
+
+        $this->validate($request, [
+            'filename' => 'required',
+            'filename.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
+        ]);
+
+
+        if($request->hasfile('filename'))
+        {
+            foreach($request->file('filename') as $file)
+            {
+                $name = time().'.'.$file->extension();
+                $file->move(public_path().'/img/products/' . $request->base_code, $name);
+                $data[] = $name;
+            }
+        }
+
+        return $data;
+    }
+
+
 
     /**
      * Display the specified resource.

@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Resources\CategoryResource;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use Illuminate\Support\Arr;
 
 class CategoryController extends Controller
 {
@@ -29,23 +26,6 @@ class CategoryController extends Controller
 
         $params = $request->all();
 
-        // Page limit
-        if (!empty($params['limit'])) {
-            $limit = Arr::pull($params, 'limit');
-        }
-
-        // Sort field
-        if (!empty($params['sort'])) {
-            $sort = Arr::pull($params, 'sort');
-        } else {
-            $sort = 'category';
-        }
-
-        // Sort direction ASC or DESC
-        if (!empty($params['direction'])) {
-            $direction = Arr::pull($params, 'direction');
-        }
-
         // Just categories allowed to display on the website
         $queryBuilder->where('display', 1);
 
@@ -53,8 +33,11 @@ class CategoryController extends Controller
             $queryBuilder->where($key, $value);
         }
 
-        $queryBuilder->orderBy($sort, $direction ?? 'Asc');
-        return new CategoryResource($queryBuilder->paginate($limit ?? 100));
+        $queryBuilder->orderBy('category');
+        $categories = $queryBuilder->paginate();
+
+        //return new CategoryCollection($categories);
+        return new CategoryResource($queryBuilder->paginate());
     }
 
     /**
@@ -75,41 +58,11 @@ class CategoryController extends Controller
             return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
-        $product = Product::create($data);
+        $category = Category::create($data);
 
-        if ($product) {
-            // Upload images
-            $images = $this->uploadImage($request);
-            $images["product_id"] = $product->id;
-            foreach ($images as $key => $value) {
-
-            }
-        }
-
-        return response([ 'product' => new ProductResource($product), 'message' => 'Created successfully'], 200);
+        return response([ 'category' => new CategoryResource($category), 'message' => 'Created successfully'], 200);
     }
 
-    private function uploadImage($request)
-    {
-
-        $this->validate($request, [
-            'filenames' => 'required',
-            'filenames.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
-        ]);
-
-
-        if($request->hasfile('filename'))
-        {
-            foreach($request->file('filename') as $file)
-            {
-                $name = time().'.'.$file->extension();
-                $file->move(public_path().'/img/products/' . $request->base_code, $name);
-                $data[] = $name;
-            }
-        }
-
-        return $data;
-    }
     /**
      * Display the specified resource.
      *
