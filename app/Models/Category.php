@@ -11,7 +11,7 @@ class Category extends Model
     use Sluggable;
 
     protected $fillable = [
-        'category', 'subcategory_id', 'subcategory', 'display', 'image_url', 'icon_url', 'hex_color', 'parent_id', 'slug'
+        'category', 'subcategory_id', 'subcategory', 'display', 'image_url', 'icon_url', 'parent_id', 'slug'
     ];
 
     public $timestamps = false;
