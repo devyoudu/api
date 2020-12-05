@@ -17,6 +17,7 @@ class CreateProductImagesTable extends Migration
             $table->id();
             $table->integer('product_id');
             $table->string('image_name');
+            $table->string('image_url');
             $table->boolean('is_default')->default(0);
             $table->timestamps();
         });

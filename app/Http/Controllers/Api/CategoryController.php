@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Resources\CategoryResource;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -36,7 +37,6 @@ class CategoryController extends Controller
         $queryBuilder->orderBy('category');
         $categories = $queryBuilder->paginate();
 
-        //return new CategoryCollection($categories);
         return new CategoryResource($queryBuilder->paginate());
     }
 

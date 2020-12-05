@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -68,7 +69,6 @@ class ProductController extends Controller
 
     }
 
-
     public function store(Request $request)
     {
         $data = $request->all();
@@ -83,7 +83,7 @@ class ProductController extends Controller
 
         $product = Product::create($data);
 
-        if ($product) {
+        if($request->hasfile('filename')) {
             // Upload images
             $images = $this->uploadImage($request);
 
@@ -91,67 +91,40 @@ class ProductController extends Controller
                 $prod_image = new ProductImage;
                 $prod_image->product_id = $product->id;
                 $prod_image->image_name = $value;
+                //$prod_image->image_url = $value;
                 $prod_image->save();
             }
         }
-
         return response([ 'category' => new ProductResource($product), 'message' => 'Created successfully'], 200);
 
     }
 
     private function uploadImage($request)
     {
-
         $this->validate($request, [
-            'filename' => 'required',
             'filename.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
         ]);
 
-
-        if($request->hasfile('filename'))
+        foreach($request->file('filename') as $file)
         {
-            foreach($request->file('filename') as $file)
-            {
-                $name = time().'.'.$file->extension();
-                $file->move(public_path().'/img/products/' . $request->base_code, $name);
-                $data[] = $name;
-            }
+            $name = time().'.'.$file->extension();
+            $file->move(public_path().'/img/products/' . $request->base_code, $name);
+            $data[] = $name;
         }
 
         return $data;
     }
 
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function show(Product $product)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Product $product)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Product $product)
     {
         //
