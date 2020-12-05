@@ -17,7 +17,6 @@ class CreateCategoriesTable extends Migration
             $table->boolean('display')->default(1)->nullable();
             $table->string('image_url')->nullable();
             $table->string('icon_url')->nullable();
-            $table->integer('parent_id')->nullable();
         });
     }
 
@@ -28,6 +27,10 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropColumn('display');
+            $table->dropColumn('image_url');
+            $table->dropColumn('icon_url');
+        });
     }
 }

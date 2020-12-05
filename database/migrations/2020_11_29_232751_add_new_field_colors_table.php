@@ -25,6 +25,8 @@ class AddNewFieldColorsTable extends Migration
      */
     public function down()
     {
-        $table->dropColumn('hex_color');
+        Schema::table('colors', function (Blueprint $table) {
+            $table->dropColumn('hex_color');
+        });
     }
 }
