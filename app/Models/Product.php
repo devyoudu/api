@@ -33,4 +33,13 @@ class Product extends Model
         return $this->hasMany(Color::class, 'id', 'color_id');
     }
 
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'product_title'
+            ]
+        ];
+    }
+
 }
