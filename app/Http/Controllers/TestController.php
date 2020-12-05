@@ -17,7 +17,7 @@ class TestController extends Controller
 
 
         // Marca Laser API Token
-        $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMzgzMjc3MyIsIm5hbWUiOiJNYXJjYUxhc2VyIiwiaWF0IjoxNTE2MjM5MDIyfQ.-2XQw_TDJBVXznc_Z-Z2DLAZCezBHT6IK-9nPgjx_Zg';
+        $token = '*****';
 
         // Curl example
         /*$curl  = curl_init();
