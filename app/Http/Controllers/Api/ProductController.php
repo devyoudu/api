@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
-use App\Http\Resources\ProductCollection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 

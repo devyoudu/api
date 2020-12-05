@@ -14,6 +14,8 @@ class Category extends Model
         'category', 'subcategory_id', 'subcategory', 'display', 'image_url', 'icon_url', 'hex_color', 'parent_id', 'slug'
     ];
 
+    public $timestamps = false;
+
     public function sluggable()
     {
         return [
