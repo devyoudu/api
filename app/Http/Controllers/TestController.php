@@ -56,7 +56,7 @@ class TestController extends Controller
         ];
 
         // Request API (Product)
-        $response = $client->request('GET', 'product', [
+        $response = $client->request('GET', 'products', [
                 'headers' => $headers,
                 'query' => $params
         ]);
