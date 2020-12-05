@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductCollection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 
@@ -31,7 +32,7 @@ class ProductController extends Controller
         if (!empty($params['sort'])) {
             $sort = Arr::pull($params, 'sort');
         } else {
-            $sort = 'product_title';
+            $sort = 'product_code';
         }
 
         // Sort direction ASC or DESC
@@ -41,7 +42,7 @@ class ProductController extends Controller
 
         foreach ($params as $key => $value) {
 
-            if ($key == "base_code" || $key == "base_code" || $key == "product_code") {
+            if ($key == "slug" || $key == "base_code" || $key == "product_ncm" || $key == "product_code") {
 
                 $queryBuilder->where($key, $value);
 
@@ -63,7 +64,7 @@ class ProductController extends Controller
 
         $queryBuilder->orderBy($sort, $direction ?? 'Asc');
 
-        return new ProductResource($queryBuilder->paginate($limit ?? 100));
+        return ProductResource::collection($queryBuilder->paginate($limit ?? 100));
 
     }
 

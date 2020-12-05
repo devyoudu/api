@@ -14,8 +14,30 @@ class TestController extends Controller
     // How to connect and consume a simple API request
     public function index()
     {
+
+
         // Marca Laser API Token
         $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMzgzMjc3MyIsIm5hbWUiOiJNYXJjYUxhc2VyIiwiaWF0IjoxNTE2MjM5MDIyfQ.-2XQw_TDJBVXznc_Z-Z2DLAZCezBHT6IK-9nPgjx_Zg';
+
+        // Curl example
+        $curl  = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('API_MARCALASER') . "product?category=Black",
+            CURLOPT_RETURNTRANSFER =>  true,
+            CURLOPT_ENCODING =>  "",
+            CURLOPT_MAXREDIRS =>  10,
+            CURLOPT_TIMEOUT =>  0,
+            CURLOPT_FOLLOWLOCATION =>  true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_FOLLOWLOCATION =>  "GET",
+            CURLOPT_HTTPHEADER =>  array(
+                "Authorization: Bearer " . $token
+            ),
+        ));
+        $response  = curl_exec($curl);
+        curl_close($curl);
+        echo $response;
+
 
         // API Base - env file
         $client = new Client(['base_uri' => env('API_MARCALASER')]);

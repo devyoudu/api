@@ -4,12 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Category extends Model
 {
-    use HasFactory;
+    use Sluggable;
 
     protected $fillable = [
-        'category', 'subcategory_id', 'subcategory', 'display', 'image_url', 'icon_url', 'hex_color', 'parent_id'
+        'category', 'subcategory_id', 'subcategory', 'display', 'image_url', 'icon_url', 'hex_color', 'parent_id', 'slug'
     ];
+
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'category'
+            ]
+        ];
+    }
 }
