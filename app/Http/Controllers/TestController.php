@@ -20,7 +20,7 @@ class TestController extends Controller
         $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMzgzMjc3MyIsIm5hbWUiOiJNYXJjYUxhc2VyIiwiaWF0IjoxNTE2MjM5MDIyfQ.-2XQw_TDJBVXznc_Z-Z2DLAZCezBHT6IK-9nPgjx_Zg';
 
         // Curl example
-        $curl  = curl_init();
+        /*$curl  = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => env('API_MARCALASER') . "product?category=Black",
             CURLOPT_RETURNTRANSFER =>  true,
@@ -36,7 +36,7 @@ class TestController extends Controller
         ));
         $response  = curl_exec($curl);
         curl_close($curl);
-        echo $response;
+        echo $response;*/
 
 
         // API Base - env file
