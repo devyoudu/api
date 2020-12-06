@@ -38,7 +38,7 @@ class CategoryController extends Controller
         if (!empty($params['sort'])) {
             $sort = Arr::pull($params, 'sort');
         } else {
-            $sort = 'product_code';
+            $sort = 'category';
         }
 
         // Sort direction ASC or DESC
@@ -56,7 +56,8 @@ class CategoryController extends Controller
 
         $queryBuilder->orderBy($sort, $direction ?? 'Asc');
 
-        return new CategoryResource($queryBuilder->paginate($limit ?? 100));
+        //return new CategoryResource($queryBuilder->paginate($limit ?? 100));
+        return CategoryResource::collection($queryBuilder->paginate($limit ?? 100));
     }
 
     /**

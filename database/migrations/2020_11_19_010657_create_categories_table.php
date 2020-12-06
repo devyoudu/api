@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->boolean('display')->default(1)->nullable();
             $table->string('image_url')->nullable();
             $table->string('icon_url')->nullable();
+            $table->integer('parent_id')->nullable();
         });
     }
 
@@ -31,6 +32,7 @@ class CreateCategoriesTable extends Migration
             $table->dropColumn('display');
             $table->dropColumn('image_url');
             $table->dropColumn('icon_url');
+            $table->dropColumn('parent_id');
         });
     }
 }
