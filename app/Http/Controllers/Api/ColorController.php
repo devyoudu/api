@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\Color;
 use Illuminate\Http\Request;
-use App\Http\Resources\CategoryResource;
+use App\Http\Resources\ColorResource;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends Controller
+class ColorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $queryBuilder = Category::query();
+        $queryBuilder = Color::query();
 
         $params = $request->all();
 
@@ -38,7 +38,7 @@ class CategoryController extends Controller
         if (!empty($params['sort'])) {
             $sort = Arr::pull($params, 'sort');
         } else {
-            $sort = 'product_code';
+            $sort = 'color';
         }
 
         // Sort direction ASC or DESC
@@ -46,17 +46,13 @@ class CategoryController extends Controller
             $direction = Arr::pull($params, 'direction');
         }
 
-
-        // Just categories allowed to display on the website
-        $queryBuilder->where('display', 1);
-
         foreach ($params as $key => $value) {
             $queryBuilder->where($key, $value);
         }
 
         $queryBuilder->orderBy($sort, $direction ?? 'Asc');
 
-        return new CategoryResource($queryBuilder->paginate($limit ?? 100));
+        return new ColorResource($queryBuilder->paginate($limit ?? 100));
     }
 
     /**
@@ -70,39 +66,27 @@ class CategoryController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'category' => 'required|max:255'
+            'color' => 'required|max:255'
         ]);
 
         if($validator->fails()){
             return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
-        if($request->hasfile('filename')) {
+        $color = Color::create($data);
 
-            $this->validate($request, [
-                'filename.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
-            ]);
-
-            $file = $request->file('filename');
-            $name = "category_" . time().'.'.$file->extension();
-            $file->move(public_path().'/img/categories/', $name);
-            $data["image_url"] = $name;
-        }
-
-        $category = Category::create($data);
-
-        return response([ 'category' => new CategoryResource($category), 'message' => 'Created successfully'], 200);
+        return response([ 'color' => new ColorResource($color), 'message' => 'Created successfully'], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Category  $Category
+     * @param  \App\Models\Color  $color
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $Category)
+    public function show(Color $color)
     {
-        return response([ 'category' => new CategoryResource($Category), 'message' => 'Ok'], 200);
+        return response([ 'color' => new ColorResource($color), 'message' => 'Ok'], 200);
 
     }
 
@@ -110,25 +94,25 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $Category
+     * @param  \App\Models\Color  $color
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $Category)
+    public function update(Request $request, Color $color)
     {
-        $Category->update($request->all());
+        $color->update($request->all());
 
-        return response([ 'category' => new CategoryResource($Category), 'message' => 'Ok'], 200);
+        return response([ 'color' => new ColorResource($color), 'message' => 'Ok'], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Category  $Category
+     * @param  \App\Models\Color  $color
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $Category)
+    public function destroy(Color $color)
     {
-        $Category->delete();
+        $color->delete();
 
         return response(['message' => 'Deleted']);
     }

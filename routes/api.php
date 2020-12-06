@@ -23,6 +23,8 @@ Route::post('/register', 'Api\AuthController@register');
 Route::post('/login', 'Api\AuthController@login');
 
 Route::apiResource('/categories', 'Api\CategoryController')->middleware('custom_api_auth');
+Route::apiResource('/subcategories', 'Api\SubCategoryController')->middleware('custom_api_auth');
+Route::apiResource('/colors', 'Api\ColorController')->middleware('custom_api_auth');
 Route::apiResource('/products', 'Api\ProductController')->middleware('custom_api_auth');
 
 Route::apiResource('/test', 'Api\TestController');
