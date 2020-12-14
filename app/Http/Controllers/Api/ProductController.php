@@ -51,8 +51,12 @@ class ProductController extends Controller
 
                 $queryBuilder->where($key, 'like', '%' . $value . '%');
 
+            } elseif ($key == "category_slug") {
+                $queryBuilder->whereHas('categories', function($q) use ($value)
+                {
+                    $q->where('slug', 'like', '%'. $value . '%');
+                });
             } else {
-
                 // Search over relationships
                 if ($key == "category" || $key == "subcategory" || $key == "color") {
                     $queryBuilder->whereHas(Str::plural($key), function($q) use ($key, $value)
