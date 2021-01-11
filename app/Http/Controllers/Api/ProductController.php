@@ -7,6 +7,8 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
@@ -128,5 +130,40 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function generateImages()
+    {
+        $products = DB::table('products')
+            ->select('base_code', 'old_code', 'product_code', 'id')
+            ->get();
+
+        $real_path = realpath('');
+
+        foreach ($products as $product) {
+
+            if (! is_dir("{$real_path}/img/products/{$product->base_code}")) {
+                mkdir("{$real_path}/img/products/{$product->base_code}", 0777, true);
+            }
+
+            $product_image = glob("{$real_path}/img/products/{$product->product_code}.jpg");
+
+            if ($product_image[0]) {
+
+                copy($product_image[0], "{$real_path}/img/products/{$product->base_code}/{$product->product_code}.jpg");
+
+                DB::table('product_images')
+                    ->insert([
+                        'product_id' => $product->id,
+                        'image_name' => $product->product_code . '.jpg',
+                        'image_url' => "https://api.marcalaser.com/img/products/{$product->base_code}/{$product->product_code}.jpg",
+                        'is_default' => 1,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+            }
+        }
+
+        return response()->json('Imagens geradas com sucesso!');
     }
 }
