@@ -167,7 +167,7 @@ class ProductController extends Controller
 
             $product_image = glob("{$real_path}/img/products/{$product->product_code}.jpg");
 
-            if ($product_image[0]) {
+            if (count($product_image) > 0) {
 
                 copy($product_image[0], "{$real_path}/img/products/{$product->base_code}/{$product->product_code}.jpg");
 
