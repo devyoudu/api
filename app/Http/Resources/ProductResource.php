@@ -23,6 +23,7 @@ class ProductResource extends JsonResource
             'available_on_site'         => $this->available_on_site,
             'images'                    => ProductImageResource::collection(optional($this->images)),
             'categories'                => CategoryResource::collection(optional($this->categories)),
+            'category_slug'             => CategoryResource::collection(optional($this->categories)),
             'subcategories'             => SubCategoryResource::collection(optional($this->subcategories)),
             'colors'                    => ColorResource::collection(optional($this->colors)),
         ];

@@ -18,6 +18,8 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
+
+        $search = "";
         $queryBuilder = Product::query()
         ->with('images')
         ->with('categories')
@@ -45,16 +47,22 @@ class ProductController extends Controller
 
         foreach ($params as $key => $value) {
 
-            if ($key == "slug" || $key == "base_code" || $key == "product_ncm" || $key == "product_code") {
+            if ($key == "slug") {
 
                 $queryBuilder->where($key, $value);
 
-            } elseif ($key == "product_title" || $key == "product_description") {
+            } elseif ($key == "category_slug") {
 
-                $queryBuilder->where($key, 'like', '%' . $value . '%');
+                $queryBuilder->whereHas('categories', function($q) use ($value)
+                {
+                    $q->where('slug', 'like', '%'. $value . '%');
+                });
+
+            } elseif ($key == "search") {
+
+                $search = $value;
 
             } else {
-
                 // Search over relationships
                 if ($key == "category" || $key == "subcategory" || $key == "color") {
                     $queryBuilder->whereHas(Str::plural($key), function($q) use ($key, $value)
@@ -65,6 +73,17 @@ class ProductController extends Controller
             }
         }
 
+        if ($search != "") {
+            $queryBuilder->where(function($query) use ($search) {
+                $query
+                    ->where('base_code', 'like', '%' . $search . '%')
+                    ->orWhere('product_code', 'like', '%' . $search . '%')
+                    ->orWhere('product_title', 'like', '%' . $search . '%')
+                    ->orWhere('product_description', 'like', '%' . $search . '%');
+            });
+        }
+
+        //$queryBuilder->dd();
         $queryBuilder->orderBy($sort, $direction ?? 'Asc');
 
         return ProductResource::collection($queryBuilder->paginate($limit ?? 100));
