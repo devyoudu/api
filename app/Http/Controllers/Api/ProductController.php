@@ -157,6 +157,8 @@ class ProductController extends Controller
             ->select('base_code', 'old_code', 'product_code', 'id')
             ->get();
 
+        DB::table('product_images')->truncate();
+
         $real_path = realpath('');
 
         foreach ($products as $product) {
