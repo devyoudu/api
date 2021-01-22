@@ -163,6 +163,11 @@
                                                 <td><pre>   colors</pre></td>
                                                 <td>Object[ ]</td>
                                                 <td>Cor do product</td>
+                                            </tr
+                                            ><tr>
+                                                <td><pre>   occasions</pre></td>
+                                                <td>Object[ ]</td>
+                                                <td>Cor do product</td>
                                             </tr>
                                             <tr>
                                                 <td><pre>   product_packing_size</pre></td>
