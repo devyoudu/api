@@ -26,5 +26,6 @@ Route::apiResource('/categories', 'Api\CategoryController')->middleware('custom_
 Route::apiResource('/subcategories', 'Api\SubCategoryController')->middleware('custom_api_auth');
 Route::apiResource('/colors', 'Api\ColorController')->middleware('custom_api_auth');
 Route::apiResource('/products', 'Api\ProductController')->middleware('custom_api_auth');
+Route::apiResource('/occasions', 'Api\OccasionController')->middleware('custom_api_auth');
 
 Route::apiResource('/test', 'Api\TestController');

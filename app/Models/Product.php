@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
@@ -33,6 +34,11 @@ class Product extends Model
         return $this->hasMany(Color::class, 'id', 'color_id');
     }
 
+    public function occasions(): HasOne
+    {
+        return $this->hasOne(Occasion::class, 'id', 'occasion_id');
+    }
+
     public function sluggable()
     {
         return [
@@ -41,5 +47,4 @@ class Product extends Model
             ]
         ];
     }
-
 }

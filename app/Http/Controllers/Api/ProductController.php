@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-
     public function index(Request $request)
     {
 
@@ -24,7 +23,8 @@ class ProductController extends Controller
         ->with('images')
         ->with('categories')
         ->with('subcategories')
-        ->with('colors');
+        ->with('colors')
+        ->with('occasions');
 
         $params = $request->all();
 
@@ -64,7 +64,7 @@ class ProductController extends Controller
 
             } else {
                 // Search over relationships
-                if ($key == "category" || $key == "subcategory" || $key == "color") {
+                if ($key == "category" || $key == "subcategory" || $key == "color" || $key == "occasion") {
                     $queryBuilder->whereHas(Str::plural($key), function($q) use ($key, $value)
                     {
                         $q->where($key, 'like', '%'. $value . '%');
@@ -84,10 +84,13 @@ class ProductController extends Controller
         }
 
         //$queryBuilder->dd();
-        $queryBuilder->orderBy($sort, $direction ?? 'Asc');
+        if ($sort === 'rand') {
+            $queryBuilder->inRandomOrder();
+        } else {
+            $queryBuilder->orderBy($sort, $direction ?? 'Asc');
+        }
 
         return ProductResource::collection($queryBuilder->paginate($limit ?? 100));
-
     }
 
     public function store(Request $request)

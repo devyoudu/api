@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends Model
 {
@@ -15,6 +15,11 @@ class Category extends Model
     ];
 
     public $timestamps = false;
+
+    public function subcategories(): BelongsToMany
+    {
+        return $this->belongsToMany(SubCategory::class, 'category_subcategories', 'category_id', 'subcategory_id');
+    }
 
     public function sluggable()
     {

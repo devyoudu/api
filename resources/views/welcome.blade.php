@@ -39,6 +39,8 @@
                                 <a class="nav-link" id="prod-consultar-tab" data-toggle="pill" href="#prod-consultar" role="tab" aria-controls="prod-consultar" aria-selected="false">Consultar</a>
                                 <span class="my-1">Categorias</span>
                                 <a class="nav-link" id="cat-list-tab" data-toggle="pill" href="#cat-list" role="tab" aria-controls="cat-list" aria-selected="false">Listar</a>
+                                <span class="my-1">Ocasiões</span>
+                                <a class="nav-link" id="occ-list-tab" data-toggle="pill" href="#occ-list" role="tab" aria-controls="cat-list" aria-selected="false">Listar</a>
                             </div>
                         </div>
                         <div class="col-9">
@@ -51,7 +53,7 @@
                                         Abaixo segue exemplos de como informar o token no cabeçalho da requisição:
                                     </p>
                                     <h5>PHP</h5>
-                                    <pre class="prettyprint lang-html linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><span class="tag">$curl </span><span class="pln"> = curl_init();</span></li><li class="l1"><span class="pln">curl_setopt_array(</span><span class="tag">$curl</span><span class="pln">, </span><span class="tag">array</span><span class="pln">(</span></li><li class="l2"><span class="pln">    CURLOPT_URL => </span><span class="kwd">"https://app.marcalaser.com/api/products?category=Home&color=Black"</span><span class="pln">,</span></li><li class="l3"><span class="pln">    CURLOPT_RETURNTRANSFER =>  </span><span class="tag">true</span><span class="pln">,</span></li><li class="l4"><span class="pln">    CURLOPT_ENCODING =>  </span><span class="kwd">""</span><span class="pln">,</span></li><li class="l5"><span class="pln">    CURLOPT_MAXREDIRS =>  </span><span class="atv">10</span><span class="pln">,</span></li><li class="l6"><span class="pln">    CURLOPT_TIMEOUT =>  </span><span class="atv">0</span><span class="pln">,</span></li><li class="l7"><span class="pln">    CURLOPT_FOLLOWLOCATION =>  </span><span class="tag">true</span><span class="pln">,</span></li><li class="l8"><span class="pln">    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1, </span></li><li class="l9"><span class="pln">    CURLOPT_FOLLOWLOCATION =>  </span><span class="kwd">"GET"</span><span class="pln">,</span></li><li class="l10"><span class="pln">    CURLOPT_HTTPHEADER =>  </span><span class="tag">array</span><span class="pln">(</span></li><li class="l11"><span class="kwd">         "Authorization: Bearer ***********"</span></li><li class="l12"><span class="pln">    ), </span></li><li class="l13"><span class="pln">)); </span></li><li class="L14"><span class="tag">$response </span><span class="pln"> = curl_exec(</span><span class="tag">$curl </span><span class="pln">);</span></li><li class="L15"><span class="pln">curl_close(</span><span class="tag">$curl</span><span class="pln">);</span></li><li class="L16"><span class="tag">echo $response</span><span class="pln">;</span></li></ol></pre>
+                                    <pre class="prettyprint lang-html linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><span class="tag">$curl </span><span class="pln"> = curl_init();</span></li><li class="l1"><span class="pln">curl_setopt_array(</span><span class="tag">$curl</span><span class="pln">, </span><span class="tag">array</span><span class="pln">(</span></li><li class="l2"><span class="pln">    CURLOPT_URL => </span><span class="kwd">"https://api.marcalaser.com/api/products?category=Home&color=Black"</span><span class="pln">,</span></li><li class="l3"><span class="pln">    CURLOPT_RETURNTRANSFER =>  </span><span class="tag">true</span><span class="pln">,</span></li><li class="l4"><span class="pln">    CURLOPT_ENCODING =>  </span><span class="kwd">""</span><span class="pln">,</span></li><li class="l5"><span class="pln">    CURLOPT_MAXREDIRS =>  </span><span class="atv">10</span><span class="pln">,</span></li><li class="l6"><span class="pln">    CURLOPT_TIMEOUT =>  </span><span class="atv">0</span><span class="pln">,</span></li><li class="l7"><span class="pln">    CURLOPT_FOLLOWLOCATION =>  </span><span class="tag">true</span><span class="pln">,</span></li><li class="l8"><span class="pln">    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1, </span></li><li class="l9"><span class="pln">    CURLOPT_FOLLOWLOCATION =>  </span><span class="kwd">"GET"</span><span class="pln">,</span></li><li class="l10"><span class="pln">    CURLOPT_HTTPHEADER =>  </span><span class="tag">array</span><span class="pln">(</span></li><li class="l11"><span class="kwd">         "Authorization: Bearer ***********"</span></li><li class="l12"><span class="pln">    ), </span></li><li class="l13"><span class="pln">)); </span></li><li class="L14"><span class="tag">$response </span><span class="pln"> = curl_exec(</span><span class="tag">$curl </span><span class="pln">);</span></li><li class="L15"><span class="pln">curl_close(</span><span class="tag">$curl</span><span class="pln">);</span></li><li class="L16"><span class="tag">echo $response</span><span class="pln">;</span></li></ol></pre>
 
                                 </div>
                                 <div class="tab-pane fade p-2" id="prod-list" role="tabpanel" aria-labelledby="prod-list-tab">
@@ -59,7 +61,7 @@
                                         <br>
                                         <span class="badge badge-pill badge-soft-success">GET</span><br>
                                         <h5>URL</h5>
-                                        <code>https://app.marcalaser.com/api/products</code>
+                                        <code>https://api.marcalaser.com/api/products</code>
                                     </p>
                                     <table class="table table-hover table-bordered w-100">
                                         <thead class="thead-dark">
@@ -88,7 +90,7 @@
                                             <tr>
                                                 <td><pre>sort (opcional)</pre></td>
                                                 <td>String</td>
-                                                <td>Ordena a consulta a partir da coluna informada (Valores aceitos: 'product_code', 'product_id', 'product_title', 'category_id', 'subcategory_id', ‘color_id’, 'product_provider', ‘available_on_site’, padrão: product_code)</td>
+                                                <td>Ordena a consulta a partir da coluna informada (Valores aceitos: 'product_code', 'product_id', 'product_title', 'category_id', 'subcategory_id', ‘color_id’, 'product_provider', ‘available_on_site’, 'rand', padrão: product_code)</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -257,12 +259,12 @@
                                         <br>
                                         <span class="badge badge-pill badge-soft-success">GET</span><br>
                                         <h5>BASE URL</h5>
-                                        <code>https://app.marcalaser.com/api/products?base_code=880022</code>
+                                        <code>https://api.marcalaser.com/api/products?base_code=880022</code>
 
                                         <br>
                                         <br>
                                         <h5>EXEMPLO CONSULTA</h5>
-                                        <code>https://app.marcalaser.com/api/products?category=Home&color=Black</code>
+                                        <code>https://api.marcalaser.com/api/products?category=Home&color=Black</code>
 
                                     </p>
                                     <h5>PARÂMETROS</h5>
@@ -319,6 +321,11 @@
                                                 <td><pre>color</pre></td>
                                                 <td>String</td>
                                                 <td>Cor do produto</td>
+                                            </tr>
+                                            <tr>
+                                                <td><pre>occasion</pre></td>
+                                                <td>String</td>
+                                                <td>Ocasião do produto</td>
                                             </tr>
 
                                         </tbody>
@@ -437,7 +444,7 @@
                                         <br>
                                         <span class="badge badge-pill badge-soft-success">GET</span><br>
                                         <h5>URL</h5>
-                                        <code>https://app.marcalaser.com/api/categorias</code>
+                                        <code>https://api.marcalaser.com/api/categorias</code>
                                     </p>
                                     <h5>SUCESSO (STATUS 200)</h5>
                                     <table class="table table-hover table-bordered w-100">
@@ -493,6 +500,46 @@
                                                 <td><pre>   color</pre></td>
                                                 <td>String</td>
                                                 <td>Nome da cor</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade p-2" id="occ-list" role="tabpanel" aria-labelledby="occ-list-tab">
+                                    <p><span class="gray">Requisição para consultar a lista de ocasiões.</span>
+                                        <br>
+                                        <span class="badge badge-pill badge-soft-success">GET</span><br>
+                                        <h5>URL</h5>
+                                        <code>https://api.marcalaser.com/api/occasions</code>
+                                    </p>
+                                    <h5>SUCESSO (STATUS 200)</h5>
+                                    <table class="table table-hover table-bordered w-100">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">Campo</th>
+                                                <th scope="col">Tipo</th>
+                                                <th scope="col">Descrição</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><pre>occasions</pre></td>
+                                                <td>Object[ ]</td>
+                                                <td>Lista das ocasiões</td>
+                                            </tr>
+                                            <tr>
+                                                <td><pre>   id</pre></td>
+                                                <td>Integer</td>
+                                                <td>ID da ocasião</td>
+                                            </tr>
+                                            <tr>
+                                                <td><pre>   occasion</pre></td>
+                                                <td>String</td>
+                                                <td>Descrição da ocasião</td>
+                                            </tr>
+                                            <tr>
+                                                <td><pre>   date</pre></td>
+                                                <td>Date</td>
+                                                <td>Data da ocasião</td>
                                             </tr>
                                         </tbody>
                                     </table>
