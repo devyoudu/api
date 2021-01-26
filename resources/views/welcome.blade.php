@@ -145,6 +145,21 @@
                                                 <td>Personalização padrão para o produto</td>
                                             </tr>
                                             <tr>
+                                                <td><pre>   occasion</pre></td>
+                                                <td>Object[]</td>
+                                                <td>Ocasião do produto</td>
+                                            </tr>
+                                            <tr>
+                                                <td><pre>   sale</pre></td>
+                                                <td>Integer</td>
+                                                <td>Em promoção = 1, Sem promoção = 0</td>
+                                            </tr>
+                                            <tr>
+                                                <td><pre>   release</pre></td>
+                                                <td>Integer</td>
+                                                <td>Lançamento = 1, Catálogo = 0</td>
+                                            </tr>
+                                            <tr>
                                                 <td><pre>   images</pre></td>
                                                 <td>Object[ ]</td>
                                                 <td>Imagens do product</td>
@@ -332,6 +347,16 @@
                                                 <td>String</td>
                                                 <td>Ocasião do produto</td>
                                             </tr>
+                                            <tr>
+                                                <td><pre>sale</pre></td>
+                                                <td>Integer</td>
+                                                <td>Em promoção = 1, Sem promoção = 0</td>
+                                            </tr>
+                                            <tr>
+                                                <td><pre>release</pre></td>
+                                                <td>Integer</td>
+                                                <td>Lançamento = 1, Catálogo = 0</td>
+                                            </tr>
 
                                         </tbody>
                                     </table>
@@ -379,6 +404,21 @@
                                                 <td><pre>product_customization</pre></td>
                                                 <td>String</td>
                                                 <td>Personalização padrão para o produto</td>
+                                            </tr>
+                                            <tr>
+                                                <td><pre>occasion</pre></td>
+                                                <td>Object[]</td>
+                                                <td>Ocasião do produto</td>
+                                            </tr>
+                                            <tr>
+                                                <td><pre>sale</pre></td>
+                                                <td>Integer</td>
+                                                <td>Em promoção = 1, Sem promoção = 0</td>
+                                            </tr>
+                                            <tr>
+                                                <td><pre>release</pre></td>
+                                                <td>Integer</td>
+                                                <td>Lançamento = 1, Catálogo = 0</td>
                                             </tr>
                                             <tr>
                                                 <td><pre>images</pre></td>

@@ -62,6 +62,14 @@ class ProductController extends Controller
 
                 $search = $value;
 
+            } elseif ($key == "sale") {
+
+                $queryBuilder->where($key, $value);
+
+            } elseif ($key == "release") {
+
+                $queryBuilder->where($key, $value);
+
             } else {
                 // Search over relationships
                 if ($key == "category" || $key == "subcategory" || $key == "color" || $key == "occasion") {
