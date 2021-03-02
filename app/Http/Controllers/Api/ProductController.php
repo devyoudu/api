@@ -232,30 +232,31 @@ class ProductController extends Controller
                 return $slug;
             }
 
-            $products = Product::all();
+            $products = Product::select('slug', 'title')->get();
 
             foreach ($products as $product) {
-                $product->slug = str_slug($product->slug, 'products');
+                $product->slug = str_slug($product->title, 'products');
                 $product->save();
             }
 
-            $categories = Category::all();
+            $categories = Category::select('slug', 'category')->get();
 
             foreach ($categories as $category) {
-                $category->slug = str_slug($category->slug, 'categories');
+                $category->slug = str_slug($category->category, 'categories');
                 $category->save();
             }
 
-            $subcategories = SubCategory::all();
+            $subcategories = SubCategory::select('slug', 'subcategory')->get();
 
             foreach ($subcategories as $subcategory) {
-                $subcategory->slug = str_slug($subcategory->slug, 'subcategories');
+                $subcategory->slug = str_slug($subcategory->subcategory, 'subcategories');
                 $subcategory->save();
             }
 
+
+            return response()->json('Slugs geradas com sucesso!');
         } else {
             die('Acesso negado!');
         }
-
     }
 }
