@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\DB;
@@ -55,7 +57,7 @@ class ProductController extends Controller
 
                 $queryBuilder->whereHas('categories', function($q) use ($value)
                 {
-                    $q->where('slug', 'like', '%'. $value . '%');
+                    $q->where('slug', '=', $value);
                 });
 
             } elseif ($key == "search") {
@@ -203,5 +205,57 @@ class ProductController extends Controller
         } else {
             die('Acesso negado!');
         }
+    }
+
+    public function generateSlugs(Request  $request)
+    {
+        if ($request->input('key') === 'generate-slugs') {
+            function str_slug($value, $table): string
+            {
+                $slug = Str::slug($value);
+
+                $items = DB::table($table)
+                    ->select('slug')
+                    ->get();
+
+                $t = 0;
+                foreach ($items as $item) {
+                    if (Str::slug($item->slug) === $slug) {
+                        $t++;
+                    }
+                }
+
+                if ($t > 0) {
+                    $slug = "{$slug}-{$t}";
+                }
+
+                return $slug;
+            }
+
+            $products = Product::all();
+
+            foreach ($products as $product) {
+                $product->slug = str_slug($product->slug, 'products');
+                $product->save();
+            }
+
+            $categories = Category::all();
+
+            foreach ($categories as $category) {
+                $category->slug = str_slug($category->slug, 'categories');
+                $category->save();
+            }
+
+            $subcategories = SubCategory::all();
+
+            foreach ($subcategories as $subcategory) {
+                $subcategory->slug = str_slug($subcategory->slug, 'subcategories');
+                $subcategory->save();
+            }
+
+        } else {
+            die('Acesso negado!');
+        }
+
     }
 }
