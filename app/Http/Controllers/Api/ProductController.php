@@ -239,20 +239,25 @@ class ProductController extends Controller
                 $product->save();
             }
 
-            $categories = Category::select('slug', 'category')->get();
+            $categories = Category::select('id', 'slug', 'category')->get();
 
             foreach ($categories as $category) {
-                $category->slug = str_slug($category->category, 'categories');
-                $category->save();
+                DB::table('categories')
+                    ->where('id', $category->id)
+                    ->update([
+                        'slug' => str_slug($category->category, 'categories')
+                    ]);
             }
 
-            $subcategories = SubCategory::select('slug', 'subcategory')->get();
+            $subcategories = SubCategory::select('id', 'slug', 'subcategory')->get();
 
             foreach ($subcategories as $subcategory) {
-                $subcategory->slug = str_slug($subcategory->subcategory, 'subcategories');
-                $subcategory->save();
+                DB::table('subcategories')
+                    ->where('id', $subcategory->id)
+                    ->update([
+                        'slug' => str_slug($subcategory->subcategory, 'subcategories')
+                    ]);
             }
-
 
             return response()->json('Slugs geradas com sucesso!');
         } else {
