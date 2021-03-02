@@ -232,10 +232,10 @@ class ProductController extends Controller
                 return $slug;
             }
 
-            $products = Product::select('slug', 'title')->get();
+            $products = Product::select('slug', 'product_title')->get();
 
             foreach ($products as $product) {
-                $product->slug = str_slug($product->title, 'products');
+                $product->slug = str_slug($product->product_title, 'products');
                 $product->save();
             }
 
