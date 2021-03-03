@@ -275,7 +275,7 @@ class ProductController extends Controller
              * Todos os produtos que serão verificados
              */
             $products = DB::table('products')
-                ->select('product_code', 'id')
+                ->select('product_code', 'base_code', 'id')
                 ->get();
 
             /**
