@@ -264,4 +264,56 @@ class ProductController extends Controller
             die('Acesso negado!');
         }
     }
+
+    public function generateNewImagesInTheDev(Request $request)
+    {
+        if ($request->input('key') === 'generate-new-images') {
+            $products_prod = DB::connection('mysql_prod')->table('products')
+                ->where('exists_directory', '*')
+                ->select('product_code')
+                ->groupBy('product_code');
+
+            $products_dev = DB::table('products')
+                            ->joinSub($products_prod, 'products_prod', function ($join) {
+                                $join->on('products.product_code', '=', 'products_prod.product_code')
+                                ->whereNull('products.exists_directory');
+                            })->select('products.product_code', 'products.base_code')
+                            ->get();
+
+
+            foreach ($products_dev as $product) {
+
+                $real_path = realpath('');
+                $dir= dirname(realpath('../../'));
+                $files = $dir."/app.marcalaser.com/public/img/products";
+
+                if (!is_dir("{$real_path}/img/products/{$product->base_code}")) {
+                    mkdir("{$real_path}/img/products/{$product->base_code}", 0777, true);
+                }
+
+                $product_image = glob("{$files}/{$product->product_code}.jpg");
+
+                if (count($product_image) > 0) {
+
+                    copy($product_image[0],
+                        "{$real_path}/img/products/{$product->base_code}/{$product->product_code}.jpg");
+
+                    DB::table('product_images')
+                        ->insert([
+                            'product_id' => $product->id,
+                            'image_name' => $product->product_code . '.jpg',
+                            'image_url' => "https://api.marcalaser.com/img/products/{$product->base_code}/{$product->product_code}.jpg",
+                            'is_default' => 1,
+                            'created_at' => date('Y-m-d H:i:s'),
+                            'updated_at' => date('Y-m-d H:i:s'),
+                        ]);
+                } else {
+                    die('Acesso negado!');
+                }
+            }
+            return response()->json('Imagens geradas com sucesso!');
+        } else {
+            die('Acesso negado!');
+        }
+    }
 }
