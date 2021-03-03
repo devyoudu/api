@@ -263,37 +263,33 @@ class ProductController extends Controller
         }
     }
 
-    public function imageExists()
+    public function imageExists(Request $request)
     {
-        /**
-         * Verifica se o usuário logado tem acesso ao recurso
-         */
-        if (auth()->user()->super_admin == 0) {
+        if ($request->input('key') === 'image-exists') {
+            /**
+             * Define o tempo de execução para 16 minutos
+             */
+            ini_set('max_execution_time', 1000);
 
-            return redirect('/')->with('warning', 'Você não tem permissão para acessar este recurso.');
-        }
+            /**
+             * Todos os produtos que serão verificados
+             */
+            $products = DB::table('products')
+                ->select('product_code', 'id')
+                ->get();
 
-        /**
-         * Define o tempo de execução para 16 minutos
-         */
-        ini_set('max_execution_time', 1000);
-
-        /**
-         * Todos os produtos que serão verificados
-         */
-        $products = DB::table('products')
-            ->select('product_code', 'id')
-            ->get();
-
-        /**
-         * Itera por todos os produtos e verifica se existe no diretório
-         */
-        foreach ($products as $product) {
-            if (file_exists("/img/products/{$product->base_code}/{$product->product_code}.jpg")) {
-                DB::table('products')->where('id', '=', $product->id)->update(['exists_directory' => '*']);
+            /**
+             * Itera por todos os produtos e verifica se existe no diretório
+             */
+            foreach ($products as $product) {
+                if (file_exists("/img/products/{$product->base_code}/{$product->product_code}.jpg")) {
+                    DB::table('products')->where('id', '=', $product->id)->update(['exists_directory' => '*']);
+                }
             }
-        }
 
-        return response()->json('Arquivos verificados com sucesso!', 200);
+            return response()->json('Arquivos verificados com sucesso!');
+        } else {
+            die('Acesso negado!');
+        }
     }
 }
