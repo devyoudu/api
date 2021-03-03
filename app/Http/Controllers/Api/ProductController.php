@@ -19,7 +19,6 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-
         $search = "";
         $queryBuilder = Product::query()
         ->with('images')
@@ -88,8 +87,7 @@ class ProductController extends Controller
                 $query
                     ->where('base_code', 'like', '%' . $search . '%')
                     ->orWhere('product_code', 'like', '%' . $search . '%')
-                    ->orWhere('product_title', 'like', '%' . $search . '%')
-                    ->orWhere('product_description', 'like', '%' . $search . '%');
+                    ->orWhere('product_title', 'like', '%' . $search . '%');
             });
         }
 
