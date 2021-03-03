@@ -275,7 +275,7 @@ class ProductController extends Controller
                             ->joinSub($products_prod, 'products_prod', function ($join) {
                                 $join->on('products.product_code', '=', 'products_prod.product_code')
                                 ->whereNull('products.exists_directory');
-                            })->select('products.product_code', 'products.base_code')
+                            })->select('products.id', 'products.product_code', 'products.base_code')
                             ->get();
 
 
