@@ -19,7 +19,6 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-
         $search = "";
         $queryBuilder = Product::query()
         ->with('images')
@@ -88,8 +87,7 @@ class ProductController extends Controller
                 $query
                     ->where('base_code', 'like', '%' . $search . '%')
                     ->orWhere('product_code', 'like', '%' . $search . '%')
-                    ->orWhere('product_title', 'like', '%' . $search . '%')
-                    ->orWhere('product_description', 'like', '%' . $search . '%');
+                    ->orWhere('product_title', 'like', '%' . $search . '%');
             });
         }
 
@@ -263,5 +261,39 @@ class ProductController extends Controller
         } else {
             die('Acesso negado!');
         }
+    }
+
+    public function imageExists()
+    {
+        /**
+         * Verifica se o usuário logado tem acesso ao recurso
+         */
+        if (auth()->user()->super_admin == 0) {
+
+            return redirect('/')->with('warning', 'Você não tem permissão para acessar este recurso.');
+        }
+
+        /**
+         * Define o tempo de execução para 16 minutos
+         */
+        ini_set('max_execution_time', 1000);
+
+        /**
+         * Todos os produtos que serão verificados
+         */
+        $products = DB::table('products')
+            ->select('product_code', 'id')
+            ->get();
+
+        /**
+         * Itera por todos os produtos e verifica se existe no diretório
+         */
+        foreach ($products as $product) {
+            if (file_exists("/img/products/{$product->base_code}/{$product->product_code}.jpg")) {
+                DB::table('products')->where('id', '=', $product->id)->update(['exists_directory' => '*']);
+            }
+        }
+
+        return response()->json('Arquivos verificados com sucesso!', 200);
     }
 }

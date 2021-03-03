@@ -19,3 +19,4 @@ Route::get('/', function () {
 
 Route::get('/generate-images', 'Api\ProductController@generateImages');
 Route::get('/generate-slugs', 'Api\ProductController@generateSlugs');
+Route::get('/image-exists', 'Api\ProductController@imageExists');
