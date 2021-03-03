@@ -26,6 +26,8 @@ class ProductResource extends JsonResource
             'release'                   => $this->release,
             'occasions'                 => $this->occasions,
             'meta_description'          => $this->meta_description,
+            'special_order'             => $this->special_order,
+            'featured_product'          => $this->featured_product,
             'images'                    => ProductImageResource::collection(optional($this->images)),
             'categories'                => CategoryResource::collection(optional($this->categories)),
             'category_slug'             => CategoryResource::collection(optional($this->categories)),

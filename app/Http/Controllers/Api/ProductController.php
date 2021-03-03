@@ -38,7 +38,7 @@ class ProductController extends Controller
         if (!empty($params['sort'])) {
             $sort = Arr::pull($params, 'sort');
         } else {
-            $sort = 'product_code';
+            $sort = 'special_order';
         }
 
         // Sort direction ASC or DESC
@@ -70,6 +70,10 @@ class ProductController extends Controller
             } elseif ($key == "release") {
 
                 $queryBuilder->where($key, $value);
+
+            } elseif ($key == "featured_product") {
+
+                $queryBuilder->where($key, '=', 1);
 
             } else {
                 // Search over relationships
