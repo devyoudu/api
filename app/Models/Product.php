@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
@@ -13,6 +14,8 @@ class Product extends Model
     protected $protected = [
         'id'
     ];
+
+    public const RELATIONSHIP_PRODUCT_COLORS = 'product_colors';
 
     public function categories()
     {
@@ -29,9 +32,9 @@ class Product extends Model
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
 
-    public function colors()
+    public function colors(): BelongsToMany
     {
-        return $this->hasMany(Color::class, 'id', 'color_id');
+        return $this->belongsToMany(Color::class, self::RELATIONSHIP_PRODUCT_COLORS, 'product_id', 'color_id');
     }
 
     public function occasions(): HasOne
